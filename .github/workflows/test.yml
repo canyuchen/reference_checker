@@ -2,10 +2,15 @@ name: test
 on: [push, pull_request]
 jobs:
   smoke:
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.os }}
     strategy:
+      fail-fast: false
       matrix:
-        python: ["3.8", "3.12"]
+        include:
+          - os: ubuntu-22.04   # last runner image with Python 3.8
+            python: "3.8"
+          - os: ubuntu-latest
+            python: "3.12"
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
